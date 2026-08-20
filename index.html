@@ -3,24 +3,87 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>keep android open</title>
+  <title>bleezhi | hi, bleez!!!</title>
   <style>
     body {
+      background-color: #fffdf5;
+      color: #1a1a1a;
+      font-family: "Comic Sans MS", "Comic Sans", "Chalkboard SE", "Comic Neue", cursive, sans-serif;
       margin: 0;
-      padding: 0;
-      font-family: system-ui, -apple-system, sans-serif;
+      padding: 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    /* Hand-drawn box effect using border-radius and uneven borders */
+    .doodle-box {
+      background: #ffffff;
+      border: 3px solid #1a1a1a;
+      /* Random border radii create a hand-drawn / sketchy border look */
+      border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+      padding: 2rem;
+      max-width: 600px;
+      width: 90%;
+      box-shadow: 5px 5px 0px #1a1a1a;
+      margin-bottom: 1.5rem;
+      transform: rotate(-0.5deg);
+    }
+
+    .footer-box {
+      border: 2px solid #1a1a1a;
+      border-radius: 125px 10px 105px 10px/10px 105px 10px 125px;
+      padding: 0.5rem 1.5rem;
+      background: #ffffff;
+      box-shadow: 3px 3px 0px #1a1a1a;
+      font-weight: bold;
+      transform: rotate(0.8deg);
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      margin-top: 0;
+    }
+
+    ul {
+      list-style-type: "⚡ ";
+      padding-left: 1.5rem;
+      line-height: 1.8;
+    }
+
+    li {
+      margin-bottom: 0.8rem;
+    }
+
+    .banner-wrapper {
+      margin-bottom: 1.5rem;
+      transform: rotate(1deg);
     }
   </style>
 </head>
 <body>
 
-  <!-- keep android open banner script -->
-  <script src="https://keepandroidopen.org/banner.js?lang=en&size=mini" async></script>
+  <!-- keep android open banner -->
+  <div class="banner-wrapper">
+    <script src="https://keepandroidopen.org/banner.js?lang=en&size=mini" async></script>
+  </div>
 
-  <main style="padding: 2rem; text-align: center;">
-    <h1>support open source android</h1>
-    <p>this page embeds the keep android open campaign banner.</p>
+  <main class="doodle-box">
+    <h1>Hi, I'm bleezhi ✏️</h1>
+    <p>Linux enthusiast, custom Android tinkerer, and self-hoster.</p>
+
+    <h2>About Me / Projects</h2>
+    <ul>
+      <li><strong>OS & Ricing:</strong> Daily driving KDE Plasma on CachyOS!</li>
+      <li><strong>Android Modding:</strong> Flashing GSIs, compiling custom kernels, and tweaking ROMs!</li>
+      <li><strong>Networking & Telecom:</strong> Self-hosting local VoIP infrastructure, FreePBX, and home network tools!</li>
+    </ul>
   </main>
+
+  <div class="footer-box">
+    github pages • keeping tech open & open source!
+  </div>
 
 </body>
 </html>
