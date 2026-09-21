@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow_graph>
+  <block type="options" id="options" name="options">
+    <param name="author">bleez</param>
+    <param name="title">bleeFM 103.7 FM transmitter</param>
+    <param name="description">ALSA Loopback audio -> WBFM -> TCP IQ for SimTx. Audio is captured from hw:3,1, paired with the hw:3,0 playback endpoint.</param>
+    <param name="generate_options">qt_gui</param>
+    <param name="run_options">prompt</param>
+    <param name="hier_block_src_path">.</param>
+    <param name="thread_safe_setters">False</param>
+  </block>
+  <block type="variable" id="audio_rate" name="audio_rate">
+    <param name="value">48000</param>
+  </block>
+  <block type="variable" id="quad_rate" name="quad_rate">
+    <param name="value">192000</param>
+  </block>
+  <block type="variable" id="max_dev" name="max_dev">
+    <param name="value">75000</param>
+  </block>
+  <block type="variable" id="tcp_host" name="tcp_host">
+    <param name="value">&quot;127.0.0.1&quot;</param>
+  </block>
+  <block type="variable" id="tcp_port" name="tcp_port">
+    <param name="value">7355</param>
+  </block>
+  <block type="audio_source" id="audio_source" name="ALSA Loopback input">
+    <param name="sample_rate">audio_rate</param>
+    <param name="device_name">&quot;hw:3,1&quot;</param>
+    <param name="ok_to_block">True</param>
+  </block>
+  <block type="wbfm_tx" id="wbfm_tx" name="WBFM Transmit">
+    <param name="audio_rate">audio_rate</param>
+    <param name="quad_rate">quad_rate</param>
+    <param name="tau">75e-6</param>
+    <param name="max_dev">max_dev</param>
+  </block>
+  <block type="blocks_tcp_sink" id="tcp_sink" name="TCP IQ Sink">
+    <param name="type">complex</param>
+    <param name="addr">tcp_host</param>
+    <param name="port">tcp_port</param>
+    <param name="server">True</param>
+  </block>
+  <connection src="audio_source" src_port="0" dst="wbfm_tx" dst_port="0"/>
+  <connection src="wbfm_tx" src_port="0" dst="tcp_sink" dst_port="0"/>
+</flow_graph>
