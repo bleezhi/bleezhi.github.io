@@ -1,0 +1,63 @@
+options:
+  parameters:
+    author: bleez
+    catch_exceptions: 'True'
+    category: '[GRC Hier Blocks]'
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: Loop BBC Radio 4 audio and stream PCM samples over TCP.
+    gen_cmake: 'On'
+    hier_block_src_path: '.:'
+    id: bbc_radio4_loop_tcp
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    tags: ''
+    title: BBC Radio 4 loop -> TCP
+    window_size: 1024
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 8]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: audio_file
+  id: blocks_wavfile_source
+  parameters:
+    file: /home/bleez/Downloads/BBC Radio 4 Longwave Shutdown message on repeat via Kenwood TS-890S.mp3
+    format: float
+    nchan: '1'
+    repeat: 'True'
+    type: float
+  states:
+    coordinate: [32, 32]
+    rotation: 0
+    state: enabled
+
+- name: tcp_sink
+  id: network_tcp_sink
+  parameters:
+    addr: 127.0.0.1
+    eof: 'False'
+    port: '5000'
+    server: 'True'
+    type: float
+  states:
+    coordinate: [288, 32]
+    rotation: 0
+    state: enabled
+
+connections:
+- [audio_file, '0', tcp_sink, '0']
+
+metadata:
+  file_format: 1
+  grc_version: 3.10.9.0
