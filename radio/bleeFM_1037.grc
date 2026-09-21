@@ -3,24 +3,20 @@ options:
     author: bleez
     catch_exceptions: 'True'
     category: '[GRC Hier Blocks]'
-    cmake_opt: ''
-    comment: ''
-    copyright: ''
-    description: 'bleeFM 103.7 FM transmitter: ALSA loopback -> WBFM -> TCP IQ for SimTx'
+    description: 'bleeFM 103.7 FM with RDS. ALSA Loopback hw:3,1 -> FM multiplex -> TCP IQ for SimTx.'
     gen_cmake: 'On'
     gen_linking: dynamic
     generate_options: qt_gui
     hier_block_src_path: '.:'
-    id: bleefm_1037
+    id: bleefm_1037_rds
     max_nouts: '0'
     output_language: python
     placement: (0,0)
-    qt_qss_theme: ''
-    realtime_scheduling: ''
     run: 'True'
-    run_command: '{filename}.py'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
     thread_safe_setters: ''
-    title: 'bleeFM 103.7 FM transmitter'
+    title: 'bleeFM 103.7 FM + RDS'
   states:
     bus_sink: false
     bus_source: false
@@ -39,22 +35,49 @@ blocks:
     coordinate: [8, 8]
     rotation: 0
     state: enabled
-- name: quad_rate
+- name: mpx_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: '380000'
+  states:
+    coordinate: [8, 60]
+    rotation: 0
+    state: enabled
+- name: iq_rate
   id: variable
   parameters:
     comment: ''
     value: '192000'
   states:
-    coordinate: [8, 60]
+    coordinate: [8, 112]
     rotation: 0
     state: enabled
-- name: max_dev
+- name: fm_deviation
   id: variable
   parameters:
     comment: ''
     value: '75000'
   states:
-    coordinate: [8, 112]
+    coordinate: [8, 164]
+    rotation: 0
+    state: enabled
+- name: rds_gain
+  id: variable
+  parameters:
+    comment: ''
+    value: '0.05'
+  states:
+    coordinate: [8, 216]
+    rotation: 0
+    state: enabled
+- name: audio_gain
+  id: variable
+  parameters:
+    comment: ''
+    value: '0.85'
+  states:
+    coordinate: [8, 268]
     rotation: 0
     state: enabled
 - name: tcp_host
@@ -63,7 +86,7 @@ blocks:
     comment: ''
     value: '''127.0.0.1'''
   states:
-    coordinate: [8, 164]
+    coordinate: [8, 320]
     rotation: 0
     state: enabled
 - name: tcp_port
@@ -72,7 +95,7 @@ blocks:
     comment: ''
     value: '7355'
   states:
-    coordinate: [8, 216]
+    coordinate: [8, 372]
     rotation: 0
     state: enabled
 - name: audio_source_0
@@ -82,26 +105,269 @@ blocks:
     alias: ''
     comment: ''
     device_name: '''hw:3,1'''
-    num_inputs: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_outputs: '1'
     ok_to_block: 'True'
-    sample_rate: audio_rate
+    samp_rate: audio_rate
   states:
-    coordinate: [168, 188]
+    coordinate: [32, 520]
     rotation: 0
     state: enabled
-- name: analog_wfm_tx_0
-  id: analog_wfm_tx
+- name: analog_fm_preemph_0
+  id: analog_fm_preemph
   parameters:
     affinity: ''
     alias: ''
-    audio_rate: audio_rate
-    comment: ''
-    fh: '0.0'
-    max_dev: max_dev
-    quad_rate: quad_rate
-    tau: 75e-6
+    comment: '50 us preemphasis for European FM broadcast'
+    fh: '-1.0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_rate: audio_rate
+    tau: 50e-6
   states:
-    coordinate: [408, 188]
+    coordinate: [248, 520]
+    rotation: 0
+    state: enabled
+- name: rational_resampler_audio
+  id: rational_resampler_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    decim: '12'
+    fbw: '0'
+    interp: '95'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    taps: ''
+    type: fff
+  states:
+    coordinate: [464, 520]
+    rotation: 0
+    state: enabled
+- name: blocks_multiply_const_audio
+  id: blocks_multiply_const_vxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    const: audio_gain
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: float
+    vlen: '1'
+  states:
+    coordinate: [672, 520]
+    rotation: 0
+    state: enabled
+- name: rds_encoder_0
+  id: rds_encoder
+  parameters:
+    af1: 103.7e6
+    affinity: ''
+    alias: ''
+    comment: ''
+    max_latency: '104'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    ms: 'True'
+    pi_country_code: '13'
+    pi_coverage_area: '0'
+    pi_reference_number: '1'
+    ps: BLEEZ FM
+    pty: '10'
+    pty_locale: '0'
+    radiotext: bleeFM 103.7 MHz
+    ta: 'False'
+    tp: 'False'
+  states:
+    coordinate: [32, 120]
+    rotation: 0
+    state: enabled
+- name: digital_diff_encoder_bb_0
+  id: digital_diff_encoder_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    coding: digital.DIFF_DIFFERENTIAL
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    modulus: '2'
+  states:
+    coordinate: [256, 120]
+    rotation: 0
+    state: enabled
+- name: digital_map_bb_0
+  id: digital_map_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    map: '[1,2]'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    coordinate: [448, 120]
+    rotation: 0
+    state: enabled
+- name: blocks_unpack_k_bits_bb_0
+  id: blocks_unpack_k_bits_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    k: '2'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    coordinate: [624, 120]
+    rotation: 0
+    state: enabled
+- name: digital_chunks_to_symbols_xx_0
+  id: digital_chunks_to_symbols_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    dimension: '1'
+    in_type: byte
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_ports: '1'
+    out_type: float
+    symbol_table: '[-1, 1]'
+  states:
+    coordinate: [800, 120]
+    rotation: 0
+    state: enabled
+- name: root_raised_cosine_filter_0
+  id: root_raised_cosine_filter
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha: '1'
+    comment: ''
+    decim: '160'
+    gain: '111'
+    interp: '160'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    ntaps: 160*11
+    samp_rate: mpx_rate
+    sym_rate: '2375'
+    type: interp_fir_filter_fff
+  states:
+    coordinate: [976, 120]
+    rotation: 0
+    state: enabled
+- name: analog_sig_source_rds_carrier
+  id: analog_sig_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: '1'
+    comment: ''
+    freq: '57000'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: '0'
+    phase: '0'
+    samp_rate: mpx_rate
+    showports: 'False'
+    type: complex
+    waveform: analog.GR_COS_WAVE
+  states:
+    coordinate: [976, 280]
+    rotation: 0
+    state: enabled
+- name: blocks_complex_to_real_rds_carrier
+  id: blocks_complex_to_real
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    vlen: '1'
+  states:
+    coordinate: [1160, 280]
+    rotation: 0
+    state: enabled
+- name: blocks_multiply_rds
+  id: blocks_multiply_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '2'
+    type: float
+    vlen: '1'
+  states:
+    coordinate: [1160, 120]
+    rotation: 0
+    state: enabled
+- name: blocks_multiply_const_rds
+  id: blocks_multiply_const_vxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    const: rds_gain
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: float
+    vlen: '1'
+  states:
+    coordinate: [1328, 120]
+    rotation: 0
+    state: enabled
+- name: blocks_add_mpx
+  id: blocks_add_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '2'
+    type: float
+    vlen: '1'
+  states:
+    coordinate: [1512, 520]
+    rotation: 0
+    state: enabled
+- name: analog_frequency_modulator_fc_0
+  id: analog_frequency_modulator_fc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: '75 kHz broadcast FM deviation'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    sensitivity: 2*math.pi*fm_deviation/mpx_rate
+  states:
+    coordinate: [1712, 520]
+    rotation: 0
+    state: enabled
+- name: rational_resampler_iq
+  id: rational_resampler_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    decim: '95'
+    fbw: '0'
+    interp: '48'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    taps: ''
+    type: ccc
+  states:
+    coordinate: [1912, 520]
     rotation: 0
     state: enabled
 - name: blocks_tcp_sink_0
@@ -115,14 +381,29 @@ blocks:
     server: 'True'
     type: complex
   states:
-    coordinate: [648, 188]
+    coordinate: [2120, 520]
     rotation: 0
     state: enabled
 
 connections:
-- [audio_source_0, '0', analog_wfm_tx_0, '0']
-- [analog_wfm_tx_0, '0', blocks_tcp_sink_0, '0']
+- [audio_source_0, '0', analog_fm_preemph_0, '0']
+- [analog_fm_preemph_0, '0', rational_resampler_audio, '0']
+- [rational_resampler_audio, '0', blocks_multiply_const_audio, '0']
+- [blocks_multiply_const_audio, '0', blocks_add_mpx, '0']
+- [rds_encoder_0, '0', digital_diff_encoder_bb_0, '0']
+- [digital_diff_encoder_bb_0, '0', digital_map_bb_0, '0']
+- [digital_map_bb_0, '0', blocks_unpack_k_bits_bb_0, '0']
+- [blocks_unpack_k_bits_bb_0, '0', digital_chunks_to_symbols_xx_0, '0']
+- [digital_chunks_to_symbols_xx_0, '0', root_raised_cosine_filter_0, '0']
+- [root_raised_cosine_filter_0, '0', blocks_multiply_rds, '0']
+- [analog_sig_source_rds_carrier, '0', blocks_complex_to_real_rds_carrier, '0']
+- [blocks_complex_to_real_rds_carrier, '0', blocks_multiply_rds, '1']
+- [blocks_multiply_rds, '0', blocks_multiply_const_rds, '0']
+- [blocks_multiply_const_rds, '0', blocks_add_mpx, '1']
+- [blocks_add_mpx, '0', analog_frequency_modulator_fc_0, '0']
+- [analog_frequency_modulator_fc_0, '0', rational_resampler_iq, '0']
+- [rational_resampler_iq, '0', blocks_tcp_sink_0, '0']
 
 metadata:
   file_format: 1
-  grc_version: 3.10.0
+  grc_version: 3.10.12.0
