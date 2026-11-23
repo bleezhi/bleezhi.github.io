@@ -2,48 +2,196 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>bleezhi | hi, bleez!!!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090d16">
+  <meta name="description" content="bleezhi — Linux, macOS, operating systems, radio, networking and open-source experiments.">
+  <title>bleezhi — systems, signals & software</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #090d16;
+      --panel: #111827;
+      --panel2: #0d1421;
+      --line: #263449;
+      --text: #e8eef8;
+      --muted: #9aa9bd;
+      --accent: #8b9cff;
+      --cyan: #65d8e8;
+      --green: #9be6b0;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(ellipse at 12% 0%, rgba(92, 116, 255, .16), transparent 38rem),
+        radial-gradient(ellipse at 90% 20%, rgba(54, 195, 208, .09), transparent 34rem),
+        var(--bg);
+      color: var(--text);
+      font: 16px/1.65 ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    a { color: var(--cyan); text-decoration: none; }
+    a:hover { color: #b5f4ff; text-decoration: underline; }
+    .wrap { width: min(1040px, calc(100% - 36px)); margin: 0 auto; }
+    header { padding: 72px 0 42px; }
+    .eyebrow { color: var(--cyan); font: 700 .78rem/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .16em; text-transform: uppercase; }
+    h1 { margin: 12px 0 8px; font-size: clamp(3rem, 9vw, 5.7rem); line-height: .98; letter-spacing: -.075em; }
+    h1 span { color: var(--accent); }
+    .intro { max-width: 680px; color: var(--muted); font-size: clamp(1.05rem, 2.4vw, 1.3rem); }
+    .nav { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+    .nav a, .pill {
+      border: 1px solid var(--line); border-radius: 999px; padding: 7px 13px;
+      color: var(--text); background: rgba(17, 24, 39, .72); font-size: .88rem;
+    }
+    main { padding-bottom: 60px; }
+    section { margin: 26px 0 42px; scroll-margin-top: 20px; }
+    .section-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 16px; }
+    h2 { margin: 0; font-size: 1.55rem; letter-spacing: -.035em; }
+    .section-head small { color: var(--muted); font: .78rem ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .card {
+      min-width: 0; padding: 21px; border: 1px solid var(--line); border-radius: 17px;
+      background: linear-gradient(145deg, rgba(19, 29, 46, .96), rgba(13, 20, 33, .96));
+      box-shadow: 0 12px 36px rgba(0,0,0,.13);
+    }
+    .card h3 { margin: 0 0 7px; font-size: 1.08rem; }
+    .card p { margin: 0; color: var(--muted); font-size: .94rem; }
+    .card .meta { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 15px; }
+    .pill { padding: 4px 9px; color: #b8c8dc; font-size: .75rem; }
+    .wide { grid-column: 1 / -1; }
+    .status { display: inline-flex; align-items: center; gap: 8px; color: var(--green); font: .8rem ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 12px rgba(155,230,176,.6); }
+    .links { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 15px; font-size: .9rem; }
+    footer { border-top: 1px solid var(--line); padding: 24px 0 38px; color: var(--muted); font-size: .85rem; }
+    footer .foot { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    @media (max-width: 680px) {
+      header { padding-top: 48px; }
+      .grid { grid-template-columns: 1fr; }
+      .wide { grid-column: auto; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  </style>
 </head>
-<body bgcolor="#fffdf5" text="#1a1a1a">
-  <center>
-    <font face="Comic Sans MS, Comic Sans, Chalkboard SE, Comic Neue, cursive">
+<body>
+  <header class="wrap">
+    <div class="eyebrow">personal corner of the internet · since 2026</div>
+    <h1>hi, i'm <span>bleezhi.</span></h1>
+    <p class="intro">I break, build and occasionally fix computers. Mostly into Linux, macOS tinkering, operating systems, radio, networking and open-source software.</p>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="#now">What I'm doing</a>
+      <a href="#macos">macOS</a>
+      <a href="#projects">Projects</a>
+      <a href="#links">Elsewhere</a>
+    </nav>
+  </header>
 
-      <!-- keep android open banner -->
-      <p>
-        <script src="https://keepandroidopen.org/banner.js?lang=en&size=mini" async></script>
-      </p>
+  <main class="wrap">
+    <section id="now">
+      <div class="section-head"><h2>Currently messing with</h2><small>01 / NOW</small></div>
+      <div class="grid">
+        <article class="card">
+          <div class="status"><span class="dot"></span> active development</div>
+          <h3>MT7902 macOS driver</h3>
+          <p>Working on a native macOS kernel-extension approach for the MediaTek MT7902 Wi-Fi card. The project is experimental and absolutely not ready for everyday use.</p>
+          <div class="meta"><span class="pill">macOS</span><span class="pill">OpenCore</span><span class="pill">KEXT</span><span class="pill">MediaTek</span></div>
+          <div class="links"><a href="https://github.com/bleezhi/7902-for-macOS">Driver repository ↗</a></div>
+        </article>
+        <article class="card">
+          <div class="status"><span class="dot"></span> ongoing tinkering</div>
+          <h3>Linux &amp; Gentoo</h3>
+          <p>Linux is still home territory. The laptop journey went through openSUSE, Artix and Arch, with Gentoo as the current challenge — KDE Plasma and OpenRC included.</p>
+          <div class="meta"><span class="pill">Gentoo</span><span class="pill">OpenRC</span><span class="pill">KDE Plasma</span><span class="pill">AMD64</span></div>
+        </article>
+      </div>
+    </section>
 
-      <table border="3" cellpadding="20" cellspacing="0" width="600" bgcolor="#ffffff">
-        <tr>
-          <td>
-            <h1>Hi, I'm bleezhi ✏️</h1>
-            <p>Linux enthusiast, custom Android tinkerer, and self-hoster.</p>
+    <section id="macos">
+      <div class="section-head"><h2>macOS corner</h2><small>02 / HACKINTOSH</small></div>
+      <div class="card wide">
+        <h3>OpenCore · AMD laptop experiments</h3>
+        <p>My macOS tinkering centres on an ASUS M1502YA-class laptop with an AMD Ryzen 5 7530U and Radeon integrated graphics. The setup uses OpenCore and a MacBookPro16,2 SMBIOS identity in the hardware report. I'm working through the usual Hackintosh puzzle: ACPI, USB mapping, power management, input, graphics and networking.</p>
+        <div class="meta"><span class="pill">macOS Sequoia 15</span><span class="pill">OpenCore</span><span class="pill">Ryzen 5 7530U</span><span class="pill">Radeon iGPU</span><span class="pill">MT7902 Wi-Fi</span></div>
+        <p style="margin-top:15px">The MT7902 is currently the big networking challenge. It is disabled in the current OpenCore configuration while a dedicated driver is being developed. Kernel extensions run in kernel space, so test builds belong on recoverable setups with a known-good EFI backup.</p>
+        <div class="links">
+          <a href="https://github.com/bleezhi/bleezhi.github.io/tree/main/myocsimplifystuff">OpenCore files ↗</a>
+          <a href="https://github.com/bleezhi/bleezhi.github.io/blob/main/opencore%20efi.zip">EFI archive ↗</a>
+          <a href="https://github.com/bleezhi/7902-for-macOS">MT7902 driver work ↗</a>
+        </div>
+      </div>
+    </section>
 
-            <h2>About Me / Projects</h2>
-            <ul>
-              <li><b>OS &amp; Ricing:</b> Daily driving KDE Plasma on CachyOS!</li>
-              <li><b>Android Modding:</b> Flashing GSIs, compiling custom kernels, and tweaking ROMs!</li>
-              <li><b>Networking &amp; Telecom:</b> Self-hosting local VoIP infrastructure, FreePBX, and home network tools!</li>
-            </ul>
-            <p>
-              <a href="https://www.vidlii.com/user/igloo39"><img src="https://www.vidlii.com/img/88x31/subscribe-en.png" alt="Subscribe on VidLii" border="0"></a>
-            </p>
-          </td>
-        </tr>
-      </table>
+    <section id="projects">
+      <div class="section-head"><h2>Things I've built (or am building)</h2><small>03 / PROJECTS</small></div>
+      <div class="grid">
+        <article class="card">
+          <h3>ZevOS</h3>
+          <p>A freestanding x86_64 hobby operating system, built from the ground up with C, assembly, a bootloader and plenty of stubbornness.</p>
+          <div class="meta"><span class="pill">OS development</span><span class="pill">C</span><span class="pill">x86_64</span></div>
+          <div class="links"><a href="https://github.com/bleezhi/zevos">GitHub ↗</a></div>
+        </article>
+        <article class="card">
+          <h3>ZevNT</h3>
+          <p>A Windows NT-inspired operating-system experiment with its own direction, desktop ideas and a distinctly Zev-flavoured identity.</p>
+          <div class="meta"><span class="pill">NT</span><span class="pill">Operating systems</span></div>
+          <div class="links"><a href="https://github.com/bleezhi/zevnt">GitHub ↗</a></div>
+        </article>
+        <article class="card">
+          <h3>Folium</h3>
+          <p>An open-source creative-app suite, starting with Folium Paint. Rust at the core, Android first, desktop later.</p>
+          <div class="meta"><span class="pill">Rust</span><span class="pill">Android</span><span class="pill">Creative tools</span></div>
+          <div class="links"><a href="https://github.com/bleezhi/folium">GitHub ↗</a></div>
+        </article>
+        <article class="card">
+          <h3>SimTX Android</h3>
+          <p>A replacement Android client for SimTX, with account, station, receiver and transmitter features — plus SDR-related experiments.</p>
+          <div class="meta"><span class="pill">Kotlin</span><span class="pill">Jetpack Compose</span><span class="pill">SDR</span></div>
+          <div class="links"><a href="https://github.com/bleezhi/simtx-android">GitHub ↗</a></div>
+        </article>
+        <article class="card">
+          <h3>TK-App bleezedit</h3>
+          <p>A SIP softphone project spanning desktop and Android, with PJSIP integration, real registration and calling as the goal.</p>
+          <div class="meta"><span class="pill">Qt</span><span class="pill">Kotlin</span><span class="pill">SIP</span><span class="pill">PJSIP</span></div>
+          <div class="links"><a href="https://github.com/bleezhi/TK-App-bleezedit">GitHub ↗</a></div>
+        </article>
+        <article class="card">
+          <h3>Bleeznet &amp; telecom</h3>
+          <p>Self-hosted telephony experiments: Asterisk, FreePBX, IVR systems, SIP infrastructure and the occasional attempt to build an ISP in a VM.</p>
+          <div class="meta"><span class="pill">Asterisk</span><span class="pill">FreePBX</span><span class="pill">VoIP</span></div>
+        </article>
+        <article class="card">
+          <h3>Radio &amp; SDR</h3>
+          <p>GNU Radio flowgraphs, internet radio, SimTX, RTL-TCP and little broadcast-style projects. If it transmits, receives or makes noise, I'm interested.</p>
+          <div class="meta"><span class="pill">GNU Radio</span><span class="pill">RTL-SDR</span><span class="pill">Broadcast</span></div>
+          <div class="links"><a href="https://github.com/bleezhi/bleezhi.github.io/tree/main/radio">Radio files ↗</a></div>
+        </article>
+        <article class="card">
+          <h3>Haze</h3>
+          <p>A cross-platform media and streaming project with plans for network streams, video/audio devices and automated builds.</p>
+          <div class="meta"><span class="pill">Media</span><span class="pill">Cross-platform</span></div>
+          <div class="links"><a href="https://github.com/LutedTheStuped/haze">GitHub ↗</a></div>
+        </article>
+      </div>
+    </section>
 
-      <br>
+    <section id="links">
+      <div class="section-head"><h2>Find me elsewhere</h2><small>04 / LINKS</small></div>
+      <div class="card">
+        <p>Most of my experiments live in public repositories. Expect works in progress, weird ideas, and the occasional README written at an unreasonable hour.</p>
+        <div class="links">
+          <a href="https://github.com/bleezhi">GitHub ↗</a>
+          <a href="https://www.vidlii.com/user/igloo39">VidLii ↗</a>
+          <a href="https://keepandroidopen.org/">Keep Android Open ↗</a>
+        </div>
+      </div>
+    </section>
+  </main>
 
-      <table border="2" cellpadding="8" cellspacing="0" bgcolor="#ffffff">
-        <tr>
-          <td>
-            <b>github pages • keeping tech open &amp; open source!</b>
-          </td>
-        </tr>
-      </table>
-
-    </font>
-  </center>
+  <footer>
+    <div class="wrap foot">
+      <span>© <span id="year">2026</span> bleezhi · made on the internet</span>
+      <span>Linux · macOS · radio · software</span>
+    </div>
+  </footer>
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
 </body>
 </html>
