@@ -76,7 +76,7 @@
   <header class="wrap">
     <div class="eyebrow">personal corner of the internet · since 2026</div>
     <h1>hi, i'm <span>bleezhi.</span></h1>
-    <p class="intro">I break, build and occasionally fix computers. Mostly into Linux, macOS tinkering, operating systems, radio, networking and open-source software.</p>
+    <p class="intro">Currently running macOS on AMD hardware with OpenCore. I build operating-system experiments, tinker with drivers, and spend far too much time on radio, networking and open-source software.</p>
     <nav class="nav" aria-label="Main navigation">
       <a href="#now">What I'm doing</a>
       <a href="#macos">macOS</a>
@@ -97,18 +97,19 @@
           <div class="links"><a href="https://github.com/bleezhi/7902-for-macOS">Driver repository ↗</a></div>
         </article>
         <article class="card">
-          <div class="status"><span class="dot"></span> ongoing tinkering</div>
+          <div class="status"><span class="dot"></span> previous chapter / ongoing interest</div>
           <h3>Linux &amp; Gentoo</h3>
-          <p>Linux is still home territory. The laptop journey went through openSUSE, Artix and Arch, with Gentoo as the current challenge — KDE Plasma and OpenRC included.</p>
+          <p>Linux remains a big interest and a source of experiments. My distro journey went through openSUSE, Artix and Arch, with Gentoo as a major install challenge — KDE Plasma and OpenRC included. It is not my current daily OS.</p>
           <div class="meta"><span class="pill">Gentoo</span><span class="pill">OpenRC</span><span class="pill">KDE Plasma</span><span class="pill">AMD64</span></div>
         </article>
       </div>
     </section>
 
     <section id="macos">
-      <div class="section-head"><h2>macOS corner</h2><small>02 / HACKINTOSH</small></div>
+      <div class="section-head"><h2>My current setup: macOS</h2><small>02 / DAILY DRIVER</small></div>
       <div class="card wide">
-        <h3>OpenCore · AMD laptop experiments</h3>
+        <div class="status"><span class="dot"></span> current daily operating system</div>
+        <h3>macOS Sequoia · OpenCore on AMD</h3>
         <p>My macOS tinkering centres on an ASUS M1502YA-class laptop with an AMD Ryzen 5 7530U and Radeon integrated graphics. The setup uses OpenCore and a MacBookPro16,2 SMBIOS identity in the hardware report. I'm working through the usual Hackintosh puzzle: ACPI, USB mapping, power management, input, graphics and networking.</p>
         <div class="meta"><span class="pill">macOS Sequoia 15</span><span class="pill">OpenCore</span><span class="pill">Ryzen 5 7530U</span><span class="pill">Radeon iGPU</span><span class="pill">MT7902 Wi-Fi</span></div>
         <p style="margin-top:15px">The MT7902 is currently the big networking challenge. It is disabled in the current OpenCore configuration while a dedicated driver is being developed. Kernel extensions run in kernel space, so test builds belong on recoverable setups with a known-good EFI backup.</p>
